@@ -1,0 +1,13 @@
+/PluginSource/build
+/UnityProject/UnityProject.csproj
+/UnityProject/UnityProject.sln
+/UnityProject/UnityProject.VC.db
+/UnityProject/.vs
+/UnityProject/Debug
+/UnityProject/Library
+/UnityProject/Temp
+/UnityProject/NativeLog.txt
+/PluginSource/projects/VisualStudio2015/Debug
+/PluginSource/projects/VisualStudio2015/.vs
+/PluginSource/projects/VisualStudio2015/*.db
+/PluginSource/projects/VisualStudio2015/*.opendb
