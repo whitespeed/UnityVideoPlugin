@@ -27,6 +27,10 @@ void Logger::log(const char* str, ...) {
 	{
 		_unity(msg);
 	}
+	else
+	{
+		printf(msg);
+	}
 	va_end(args);
 
 	fflush(stdout);

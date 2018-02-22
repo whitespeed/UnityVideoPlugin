@@ -5,10 +5,11 @@
 #include "imf/net/loop.h"
 #include "imf/net/threadloop.h"
 #include "imf/ssp/sspclient.h"
+#include <string>
 extern "C" {
 #include <libavformat\avformat.h>
 #include <libswresample\swresample.h>
-
+#include <libavutil\pixdesc.h>
 }
 
 struct H264Data
@@ -105,48 +106,33 @@ public:
 	DecoderSsp();
 	~DecoderSsp();
 
-
-
 	virtual bool init(const char* filePath) override;
-
 
 	virtual bool decode() override;
 
-
-
 	void pushVideoFrame(AVFrame* frame);
-	virtual void seek(double time) override;
 
+	virtual void seek(double time) override;
 
 	virtual void destroy() override;
 
-
 	virtual VideoInfo getVideoInfo() override;
-
 
 	virtual AudioInfo getAudioInfo() override;
 
-
 	virtual void setVideoEnable(bool isEnable) override;
-
 
 	virtual void setAudioEnable(bool isEnable) override;
 
-
 	virtual void setAudioAllChDataEnable(bool isEnable) override;
-
 
 	virtual double getVideoFrame(unsigned char** outputY, unsigned char** outputU, unsigned char** outputV) override;
 
-
 	virtual double getAudioFrame(unsigned char** outputFrame, int& frameSize) override;
-
 
 	virtual void freeVideoFrame() override;
 
-
 	virtual void freeAudioFrame() override;
-
 
 	virtual int getMetaData(char**& key, char**& value) override;
 
@@ -183,10 +169,12 @@ private:
 	imf::SspVideoMeta mVideoMeta;
 	imf::SspAudioMeta mAudioMeta;
 	imf::SspAudioMeta mSSpMeta;
-	int initSwrContext();
+
 
 	VideoInfo		mVideoInfo;
 	AudioInfo	mAudioInfo;
+
+	int initSwrContext();
 	void updateBufferState();
 	bool isH264QueueReady();
 	bool isBuffBlocked();
@@ -198,6 +186,5 @@ private:
 	void on_264(uint8_t * data, size_t len, uint64_t pts, uint32_t frm_no, uint32_t type);
 	void on_meta(struct imf::SspVideoMeta *v, struct imf::SspAudioMeta *a, struct imf::SspMeta *);
 	void on_disconnect();
-
 };
 

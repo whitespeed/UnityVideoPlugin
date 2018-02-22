@@ -180,25 +180,37 @@ bool DecoderSsp::init(const char* filePath)
 		mAVFormatContext = avformat_alloc_context();
 	}
 
+	//TODO: It's a nvidia cuvid codec. Notice the default pixel format is AV_PIX_FMT_NV12.
+	//if (NULL == mVideoCodec) {
+	//	mVideoCodec = avcodec_find_decoder_by_name("h264_cuvid");
+	//}
+
+	////TODO: it's a intel codec. Notice the default pixel format is AV_PIX_FMT_NV12.
+	//if (NULL == mVideoCodec) {
+	//	mVideoCodec = avcodec_find_decoder_by_name("h264_qsv");
+	//}
+
 	if (mVideoCodec == NULL) {
 		mVideoCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-	}
-	if (NULL == mVideoCodec) {
-		mVideoCodec = avcodec_find_decoder_by_name("h264_qsv");
-	}
-	if (NULL == mVideoCodec) {
-		mVideoCodec = avcodec_find_decoder_by_name("h264_cuvid");
 	}
 	if (mVideoCodec == NULL) {
 		LOG("Could not open video h264 codec. \n");
 		return false;
 	}
-
 	mVideoCodecContext = avcodec_alloc_context3(mVideoCodec);
+	//TODO: it should call "mVideoCodecContext->get_format" to specify the "YUV420P" pixel format.
 	avcodec_get_context_defaults3(mVideoCodecContext, mVideoCodec);
 	int errorCode = avcodec_open2(mVideoCodecContext, mVideoCodec, NULL);
 	if (errorCode < 0) {
 		LOG("Could not open  h264 codec.");
+	}
+	else
+	{
+		LOG("Init video codec: %s", mVideoCodec->long_name);
+		LOG("Codec pixel-format: %s, color-space: %s color-range: %s", 
+			av_get_pix_fmt_name(mVideoCodecContext->pix_fmt),
+			av_get_colorspace_name(mVideoCodecContext->colorspace),
+			av_color_range_name(mVideoCodecContext->color_range));
 	}
 	mThreadLooper = new imf::ThreadLoop(std::bind(&DecoderSsp::setup, this, _1, filePath));
 	mThreadLooper->start();
@@ -235,7 +247,7 @@ bool DecoderSsp::decode()
 		{
 			AVFrame* frameDecoded = av_frame_alloc();
 			errorCode = avcodec_receive_frame(mVideoCodecContext, frameDecoded);
-			if (errorCode != 0 && frameDecoded->format != AV_PIX_FMT_NV12)
+			if (errorCode != 0)
 			{
 				av_frame_free(&frameDecoded);
 				break;
@@ -355,10 +367,25 @@ double DecoderSsp::getVideoFrame(unsigned char** outputY, unsigned char** output
 		return -1;
 	}
 	AVFrame* frame = mVideoFrames.front();
-	*outputY = frame->data[0];
-	*outputU = frame->data[1];
-	*outputV = frame->data[2];
-	mVideoInfo.lastTime = (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+
+	switch (frame->format)
+	{
+	case AV_PIX_FMT_YUV420P:
+	case AV_PIX_FMT_YUVJ420P:
+		*outputY = frame->data[0];
+		*outputU = frame->data[1];
+		*outputV = frame->data[2];
+		mVideoInfo.lastTime = (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+		break;
+	case AV_PIX_FMT_NV12:
+		*outputY = frame->data[0];
+		*outputU = frame->data[1];
+		*outputV = frame->data[1];
+		mVideoInfo.lastTime = (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+		break;
+	default:
+		break;
+	}
 	//LOG("Play video frame: %d %f", mVideoFrames.size(), (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit);
 	return  mVideoInfo.lastTime;
 }
@@ -436,7 +463,8 @@ void DecoderSsp::on_meta(struct imf::SspVideoMeta *v, struct imf::SspAudioMeta *
 	mAudioInfo.sampleRate = mAudioMeta.sample_rate;
 	mAudioInfo.bufferState = IDecoder::EMPTY;
 	memcpy(&mSSpMeta, s, sizeof(imf::SspMeta));
-	mVideoCodecContext->gop_size = mVideoMeta.gop;
+	//decoding: unused
+	//mVideoCodecContext->gop_size = mVideoMeta.gop;
 
 }
 
