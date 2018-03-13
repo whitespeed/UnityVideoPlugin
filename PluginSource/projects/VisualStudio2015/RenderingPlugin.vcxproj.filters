@@ -1,29 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ViveMediaDecoder\AVHandler.cpp" />
-    <ClCompile Include="ViveMediaDecoder\DecoderFFmpeg.cpp" />
-    <ClCompile Include="ViveMediaDecoder\DX11TextureObject.cpp" />
-    <ClCompile Include="ViveMediaDecoder\Logger.cpp" />
-    <ClCompile Include="ViveMediaDecoder\ViveMediaDecoder.cpp" />
-    <ClCompile Include="ViveMediaDecoder\FileIOContext.cpp" />
-    <ClCompile Include="ViveMediaDecoder\SspIOContext.cpp" />
-    <ClCompile Include="ViveMediaDecoder\DecoderSsp.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\AVHandler.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DecoderFFmpeg.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DecoderSsp.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DX11TextureObject.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\FileIOContext.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\Logger.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\NativeDecoder.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\SspIOContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ViveMediaDecoder\AVHandler.h" />
-    <ClInclude Include="ViveMediaDecoder\DecoderFFmpeg.h" />
-    <ClInclude Include="ViveMediaDecoder\DX11TextureObject.h" />
-    <ClInclude Include="ViveMediaDecoder\IDecoder.h" />
-    <ClInclude Include="ViveMediaDecoder\ITextureObject.h" />
-    <ClInclude Include="ViveMediaDecoder\Logger.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityGraphics.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityGraphicsD3D11.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityInterface.h" />
-    <ClInclude Include="ViveMediaDecoder\ViveMediaDecoder.h" />
-    <ClInclude Include="ViveMediaDecoder\FileIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\IIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\SspIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\DecoderSsp.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\AVHandler.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DecoderFFmpeg.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DecoderSsp.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DX11TextureObject.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\FileIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\IDecoder.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\IIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\ITextureObject.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Logger.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\NativeDecoder.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\SspIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityGraphics.h">
+      <Filter>Unity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityGraphicsD3D11.h">
+      <Filter>Unity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityInterface.h">
+      <Filter>Unity</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Unity">
+      <UniqueIdentifier>{1568a23a-d724-4e9e-87e3-8787ca2421b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

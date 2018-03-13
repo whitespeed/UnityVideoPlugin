@@ -11,3 +11,9 @@
 /PluginSource/projects/VisualStudio2015/.vs
 /PluginSource/projects/VisualStudio2015/*.db
 /PluginSource/projects/VisualStudio2015/*.opendb
+/libssp/.vs
+/libssp/Debug
+/libssp/x64
+/VideoTools/libssp/Debug
+/VideoTools/libssp/x64
+/VideoTools

@@ -1,17 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -19,56 +11,44 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ViveMediaDecoder\DecoderSsp.cpp" />
-    <ClCompile Include="ViveMediaDecoder\SspIOContext.cpp" />
-    <ClCompile Include="ViveMediaDecoder\FileIOContext.cpp" />
-    <ClCompile Include="ViveMediaDecoder\AVHandler.cpp" />
-    <ClCompile Include="ViveMediaDecoder\DecoderFFmpeg.cpp" />
-    <ClCompile Include="ViveMediaDecoder\DX11TextureObject.cpp" />
-    <ClCompile Include="ViveMediaDecoder\Logger.cpp" />
-    <ClCompile Include="ViveMediaDecoder\ViveMediaDecoder.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\AVHandler.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DecoderFFmpeg.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DecoderSsp.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\DX11TextureObject.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\FileIOContext.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\Logger.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\NativeDecoder.cpp" />
+    <ClCompile Include="..\..\source\NativeDecoder\SspIOContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ViveMediaDecoder\DecoderSsp.h" />
-    <ClInclude Include="ViveMediaDecoder\SspIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\FileIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\AVHandler.h" />
-    <ClInclude Include="ViveMediaDecoder\DecoderFFmpeg.h" />
-    <ClInclude Include="ViveMediaDecoder\DX11TextureObject.h" />
-    <ClInclude Include="ViveMediaDecoder\IDecoder.h" />
-    <ClInclude Include="ViveMediaDecoder\IIOContext.h" />
-    <ClInclude Include="ViveMediaDecoder\ITextureObject.h" />
-    <ClInclude Include="ViveMediaDecoder\Logger.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityGraphics.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityGraphicsD3D11.h" />
-    <ClInclude Include="ViveMediaDecoder\Unity\IUnityInterface.h" />
-    <ClInclude Include="ViveMediaDecoder\ViveMediaDecoder.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\AVHandler.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DecoderFFmpeg.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DecoderSsp.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\DX11TextureObject.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\FileIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\IDecoder.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\IIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\ITextureObject.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Logger.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\NativeDecoder.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\SspIOContext.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityGraphics.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityGraphicsD3D11.h" />
+    <ClInclude Include="..\..\source\NativeDecoder\Unity\IUnityInterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7CFEF5A-54BD-42E8-A59E-54ABAEB4EA9C}</ProjectGuid>
     <RootNamespace>RenderingPlugin</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>ViveMediaDecoder</ProjectName>
+    <ProjectName>NativeDecoder</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -78,13 +58,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
@@ -94,70 +68,16 @@
   <PropertyGroup>
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;_USRDLL;RENDERINGPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader />
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../</AdditionalIncludeDirectories>
-      <ShowIncludes>true</ShowIncludes>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swresample.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-      <ModuleDefinitionFile>
-      </ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>C:\Users\DELL\Desktop\NativeRenderingPlugin\PluginSource\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>SETLOCAL
-
-if "$(PlatformShortName)" == "x86" (
-  set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86
-) else (
-  set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86_64
-)
-echo Target Plugin Path is %TARGET_PLUGIN_PATH%
-copy /Y "$(TargetPath)" "%TARGET_PLUGIN_PATH%\$(TargetFileName)"
-
-ENDLOCAL
-</Command>
-    </PostBuildEvent>
-    <ProjectReference />
-    <ProjectReference>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-    </ProjectReference>
-    <ProjectReference>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -168,7 +88,7 @@ ENDLOCAL
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../;../../libuv/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/;../../include/libuv/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swresample.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -196,44 +116,6 @@ ENDLOCAL
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_WINDOWS;_USRDLL;RENDERINGPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swresample.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <TargetMachine>MachineX86</TargetMachine>
-      <ModuleDefinitionFile>
-      </ModuleDefinitionFile>
-      <AdditionalLibraryDirectories>C:\Users\DELL\Desktop\NativeRenderingPlugin\PluginSource\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>SETLOCAL
-
-if "$(PlatformShortName)" == "x86" (
-  set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86
-) else (
-  set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86_64
-)
-echo Target Plugin Path is %TARGET_PLUGIN_PATH%
-copy /Y "$(TargetPath)" "%TARGET_PLUGIN_PATH%\$(TargetFileName)"
-
-ENDLOCAL
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

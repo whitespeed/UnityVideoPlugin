@@ -1,9 +1,9 @@
-﻿//========= Copyright 2015-2018, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2015-2018, WhaleyVR. All rights reserved. ===========
 
 using UnityEngine;
 using System.Collections;
 
-namespace HTC.UnityPlugin.Multimedia
+namespace UnityPlugin.Multimedia
 {
 	[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 	public class UVSphere : MonoBehaviour {

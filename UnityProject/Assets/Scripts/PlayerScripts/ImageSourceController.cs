@@ -1,10 +1,11 @@
-﻿//========= Copyright 2015-2018, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2015-2018, WhaleyVR. All rights reserved. ===========
+//========= Written by whitespeed =========
 
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
-namespace HTC.UnityPlugin.Multimedia
+namespace UnityPlugin.Multimedia
 {
 	[RequireComponent(typeof(MeshRenderer))]
 	public class ImageSourceController : MonoBehaviour {

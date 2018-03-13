@@ -1,12 +1,13 @@
-﻿//========= Copyright 2015-2018, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2015-2018, WhaleyVR. All rights reserved. ===========
+//========= Written by whitespeed =========
 
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
-namespace HTC.UnityPlugin.Multimedia
+namespace UnityPlugin.Multimedia
 {
-	[RequireComponent(typeof(ViveMediaDecoder))]
+	[RequireComponent(typeof(MediaDecoder))]
 	public class VideoSourceController : MonoBehaviour {
 		protected string LOG_TAG = "[VideoSourceController]";
 
@@ -18,11 +19,11 @@ namespace HTC.UnityPlugin.Multimedia
 		protected bool isInitialized = false;
 		protected FileSeeker fileSeeker;
 
-		protected ViveMediaDecoder decoder;
+		protected MediaDecoder decoder;
 		protected Vector3 oriScale;
 
 		protected virtual void Start () {
-			decoder = GetComponent<ViveMediaDecoder>();
+			decoder = GetComponent<MediaDecoder>();
 			initFileSeeker();
 		}
 

@@ -1,11 +1,12 @@
-﻿//========= Copyright 2015-2018, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2015-2018, WhaleyVR. All rights reserved. ===========
+//========= Written by whitespeed =========
 
 using UnityEngine;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HTC.UnityPlugin.Multimedia
+namespace UnityPlugin.Multimedia
 {
 	public class FileSeeker {
 		private const string LOG_TAG = "[FileSeeker]";

@@ -1,6 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-//========= Copyright 2015-2018, HTC Corporation. All rights reserved. ===========
+//========= Copyright 2015-2018,WhaleyVR. All rights reserved. ===========
+//========= Written by whitespeed =========
 
 Shader "Unlit/YUV2RGBA"
 {
