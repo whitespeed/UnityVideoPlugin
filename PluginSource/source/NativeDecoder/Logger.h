@@ -16,8 +16,10 @@ public:
 	static Logger* instance();
 	void log(const char* str, ...);
 	static UnityLog _unity;
+protected:
+	virtual ~Logger();
 private:
 	Logger();
 	static Logger* _instance;
-	
+	FILE* file;
 };

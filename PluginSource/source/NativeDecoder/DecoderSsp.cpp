@@ -1,5 +1,6 @@
 #include "DecoderSsp.h"
 #include "Logger.h"
+#include "libavutil\imgutils.h"
 
 using namespace std::placeholders;
 static H264Data* pack_h264_data(uint8_t* d, size_t l, uint32_t p, uint32_t f, uint32_t t)
@@ -38,7 +39,7 @@ DecoderSsp::DecoderSsp()
 	mAudioCodecContext = NULL;
 	mSspClient = NULL;
 	mThreadLooper = NULL;
-
+	mSwsContext = NULL;
 	av_init_packet(&mPacket);
 	mSwrContext = NULL;
 	mVideoBuffMax = 12;
@@ -100,6 +101,32 @@ int DecoderSsp::initSwrContext()
 	return errorCode;
 }
 
+AVFrame* DecoderSsp::convertToYUV420P(AVFrame* src)
+{
+	if (NULL == src)
+		return NULL;
+	AVFrame* dst = av_frame_alloc();
+	int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, src->width, src->height);
+	uint8_t* buffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
+	avpicture_fill((AVPicture *)dst, buffer, AV_PIX_FMT_YUV420P, src->width, src->height);
+	dst->format = AV_PIX_FMT_YUV420P;
+	dst->width = src->width;
+	dst->height = src->height;
+	if (NULL == mSwsContext)
+	{
+		mSwsContext = sws_getContext(src->width, src->height, (AVPixelFormat)src->format, 
+			dst->width, dst->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+	}
+	int result = sws_scale(mSwsContext, (const uint8_t * const*)src->data, src->linesize, 0, src->height, dst->data, dst->linesize);
+	if (result < 0)
+	{
+		LOG("Convert frame format to YUV420P failed.\n");
+		av_frame_free(&dst);
+		dst = NULL;
+	}
+	return dst;
+}
+
 void DecoderSsp::updateBufferState()
 {
 	if (mVideoInfo.isEnabled) {
@@ -150,6 +177,7 @@ void DecoderSsp::freeFrontFrame(std::list<AVFrame*>* frameBuff, std::mutex * mut
 	}
 
 	AVFrame* frame = frameBuff->front();
+	av_free(frame->data[0]);
 	av_frame_free(&frame);
 	frameBuff->pop_front();
 	updateBufferState();
@@ -173,7 +201,7 @@ void DecoderSsp::printErrorMsg(int errorCode)
 {
 	char msg[500];
 	av_strerror(errorCode, msg, sizeof(msg));
-	LOG("Decoder Ssp Error: %s \n", msg);
+	LOG("Decoder Ssp Error: %s. \n", msg);
 }
 
 void DecoderSsp::setup(imf::Loop *loop, const char* url)
@@ -207,9 +235,9 @@ bool DecoderSsp::init(const char* filePath)
 	}
 
 	//TODO: It's a nvidia cuvid codec. Notice the default pixel format is AV_PIX_FMT_NV12.
-	//if (NULL == mVideoCodec) {
-	//	mVideoCodec = avcodec_find_decoder_by_name("h264_cuvid");
-	//}
+	if (NULL == mVideoCodec) {
+		mVideoCodec = avcodec_find_decoder_by_name("h264_cuvid");
+	}
 
 	////TODO: it's a intel codec. Notice the default pixel format is AV_PIX_FMT_NV12.
 	//if (NULL == mVideoCodec) {
@@ -219,21 +247,21 @@ bool DecoderSsp::init(const char* filePath)
 	if (mVideoCodec == NULL) {
 		mVideoCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
 	}
+
 	if (mVideoCodec == NULL) {
-		LOG("Could not open video h264 codec. \n");
+		LOG("Could not find any video h264 codecs. \n");
 		return false;
 	}
 	mVideoCodecContext = avcodec_alloc_context3(mVideoCodec);
-	//TODO: it should call "mVideoCodecContext->get_format" to specify the "YUV420P" pixel format.
 	avcodec_get_context_defaults3(mVideoCodecContext, mVideoCodec);
 	int errorCode = avcodec_open2(mVideoCodecContext, mVideoCodec, NULL);
 	if (errorCode < 0) {
-		LOG("Could not open  h264 codec.");
+		printErrorMsg(errorCode);
 	}
 	else
 	{
-		LOG("Init video codec: %s", mVideoCodec->long_name);
-		LOG("Codec pixel-format: %s, color-space: %s color-range: %s", 
+		LOG("Init video codec: %s\n", mVideoCodec->long_name);
+		LOG("Codec pixel-format: %s, color-space: %s, color-range: %s. \n", 
 			av_get_pix_fmt_name(mVideoCodecContext->pix_fmt),
 			av_get_colorspace_name(mVideoCodecContext->colorspace),
 			av_color_range_name(mVideoCodecContext->color_range));
@@ -242,6 +270,7 @@ bool DecoderSsp::init(const char* filePath)
 	mThreadLooper->start();
 	mVideoInfo.isEnabled = true;
 	mAudioInfo.isEnabled = false;
+	mDtsIndex = 0;
 	mIsInitialized = true;
 	return true;
 }
@@ -257,18 +286,20 @@ bool DecoderSsp::decode()
 		H264Data* h264Data = mH264Queue.dequeue();
 		if (NULL == h264Data)
 		{
-			LOG("h264 queue is empty or used up, maybe network is unstable.");
+			LOG("H264 queue is empty or used up, maybe network is unstable.");
 			return true;
 		}
+		auto start = clock();
 		av_init_packet(&mPacket);
 		mPacket.data = h264Data->data;
-		mPacket.pts = h264Data->frm_no;
+		//mPacket.dts = (++mDtsIndex);
 		mPacket.size = h264Data->len;
 		int errorCode = avcodec_send_packet(mVideoCodecContext, &mPacket);
 		if (errorCode != 0)
 		{
 			printErrorMsg(errorCode);
 		}
+		int frameCount = 0;
 		while (true)
 		{
 			AVFrame* frameDecoded = av_frame_alloc();
@@ -280,15 +311,33 @@ bool DecoderSsp::decode()
 			}
 			else
 			{
-				//pgm_save(frameDecoded,frameDecoded->width, frameDecoded->height);
-				pushVideoFrame(frameDecoded);
+				if (frameDecoded->format != AV_PIX_FMT_YUV420P)
+				{
+					AVFrame *frameYUV = convertToYUV420P(frameDecoded);
+					if (NULL != frameYUV)
+					{
+						av_frame_free(&frameDecoded);
+						frameYUV->pkt_dts = ++mDtsIndex;
+						pushVideoFrame(frameYUV);
+					}
+				}
+				else
+				{
+					frameDecoded->pkt_dts = ++mDtsIndex;
+					pushVideoFrame(frameDecoded);
+				}
+				if (frameCount > 0)
+					LOG("Decoder output more than 1 frame in 1 packet.\n");
+				frameCount++;
 			}
 		}
 		release_h264_data(h264Data);
+		auto delta = (double)(clock() - start) / CLOCKS_PER_SEC * 1000;
+		LOG("Decoder cost time per frame: %f\n", delta);
 	}
 	if (isBuffBlocked())
 	{
-		LOG("Video frame buffer is full, checkout the performence of player");
+		//LOG("Video frames buffer is full.\n");
 	}
 	updateBufferState();
 	return true;
@@ -352,6 +401,11 @@ void DecoderSsp::destroy()
 		swr_free(&mSwrContext);
 		mSwrContext = NULL;
 	}
+	if (mSwsContext != NULL)
+	{
+		sws_freeContext(mSwsContext);
+		mSwsContext = NULL;
+	}
 	flushBuffer(&mVideoFrames, &mVideoMutex);
 	flushBuffer(&mAudioFrames, &mAudioMutex);
 	mH264Queue.release();
@@ -388,7 +442,7 @@ double DecoderSsp::getVideoFrame(unsigned char** outputY, unsigned char** output
 	std::lock_guard<std::mutex> lock(mVideoMutex);
 
 	if (!mIsInitialized || mVideoFrames.size() == 0) {
-		LOG("Video frame not available. ");
+		LOG("Video frames buffer is empty. \n");
 		*outputY = *outputU = *outputV = NULL;
 		return -1;
 	}
@@ -401,18 +455,19 @@ double DecoderSsp::getVideoFrame(unsigned char** outputY, unsigned char** output
 		*outputY = frame->data[0];
 		*outputU = frame->data[1];
 		*outputV = frame->data[2];
-		mVideoInfo.lastTime = (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+		mVideoInfo.lastTime = (double)frame->pkt_dts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
 		break;
 	case AV_PIX_FMT_NV12:
+	{
 		*outputY = frame->data[0];
 		*outputU = frame->data[1];
 		*outputV = frame->data[1];
-		mVideoInfo.lastTime = (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+		mVideoInfo.lastTime = (double)frame->pkt_dts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit;
+	}
 		break;
 	default:
 		break;
 	}
-	//LOG("Play video frame: %d %f", mVideoFrames.size(), (double)frame->pts / (double)mVideoMeta.timescale * (double)mVideoMeta.unit);
 	return  mVideoInfo.lastTime;
 }
 
@@ -434,7 +489,6 @@ double DecoderSsp::getAudioFrame(unsigned char** outputFrame, int& frameSize)
 void DecoderSsp::freeVideoFrame()
 {
 	freeFrontFrame(&mVideoFrames, &mVideoMutex);
-	//LOG("Free oldest video frame and remain %d", mVideoFrames.size());
 }
 
 void DecoderSsp::freeAudioFrame()
@@ -465,21 +519,20 @@ int DecoderSsp::getMetaData(char**& key, char**& value)
 
 void DecoderSsp::on_264(uint8_t * data, size_t len, uint64_t pts, uint32_t frm_no, uint32_t type)
 {
-	//LOG("On receive h264 data, cur queue size %d.", mH264Queue.size());
-	if (mQueueMaxSize >mH264Queue.size())
+	H264Data* h264 = pack_h264_data(data, len, pts, frm_no, type);
+	mH264Queue.queue(h264);
+	if (mH264Queue.size() >= mQueueMaxSize)
 	{
-		H264Data* h264 = pack_h264_data(data, len, pts, frm_no, type);
-		mH264Queue.queue(h264);
+		LOG("H264 queue size is full, the decoder is too slow.\n");
 	}
 	else
 	{
-		LOG("Drop frame, the decoder is too slow. Check out performence");
+		LOG("Receive H264 and current size %d.\n", mH264Queue.size());
 	}
 }
 
 void DecoderSsp::on_meta(struct imf::SspVideoMeta *v, struct imf::SspAudioMeta *a, struct imf::SspMeta *s)
 {
-
 	memcpy(&mVideoMeta, v, sizeof(imf::SspVideoMeta));
 	mVideoInfo.width = mVideoMeta.width;
 	mVideoInfo.height = mVideoMeta.height;
@@ -489,14 +542,12 @@ void DecoderSsp::on_meta(struct imf::SspVideoMeta *v, struct imf::SspAudioMeta *
 	mAudioInfo.sampleRate = mAudioMeta.sample_rate;
 	mAudioInfo.bufferState = IDecoder::EMPTY;
 	memcpy(&mSSpMeta, s, sizeof(imf::SspMeta));
-	//decoding: unused
-	//mVideoCodecContext->gop_size = mVideoMeta.gop;
-
 }
 
 void DecoderSsp::on_disconnect()
 {
-	LOG("on disconnet");
+	LOG("Ssp is disconnected.\n");
+	mDtsIndex = 0;
 	//TODO: reconnect ssp server or push flush packet
 }
 

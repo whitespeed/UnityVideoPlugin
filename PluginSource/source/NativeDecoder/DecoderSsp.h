@@ -10,6 +10,7 @@ extern "C" {
 #include <libavformat\avformat.h>
 #include <libswresample\swresample.h>
 #include <libavutil\pixdesc.h>
+#include <libswscale\swscale.h>
 }
 
 struct H264Data
@@ -119,6 +120,7 @@ private:
 	bool mUseTCP;				//	For RTSP stream.
 	bool mIsConnected;
 	bool mIsSeekToAny;
+	int64_t mDtsIndex;
 
 	int mFrameBufferNum;
 
@@ -128,7 +130,7 @@ private:
 	AVCodecContext*	mVideoCodecContext;
 	AVCodecContext*	mAudioCodecContext;
 	SwrContext*	mSwrContext;
-
+	SwsContext*   mSwsContext;
 	imf::SspClient * mSspClient;
 	imf::ThreadLoop * mThreadLooper;
 
@@ -149,6 +151,7 @@ private:
 	AudioInfo	mAudioInfo;
 
 	int initSwrContext();
+	AVFrame* convertToYUV420P(AVFrame* src);
 	void updateBufferState();
 	bool isH264QueueReady();
 	bool isBuffBlocked();

@@ -8,7 +8,7 @@ DX11TextureObject::DX11TextureObject() {
 	mD3D11Device = NULL;
 	mWidthY = mHeightY = mLengthY = 0;
 	mWidthUV = mHeightUV = mLengthUV = 0;
-	
+
 	for (int i = 0; i < TEXTURE_NUM; i++) {
 		mTextures[i] = NULL;
 		mShaderResourceView[i] = NULL;
@@ -34,8 +34,8 @@ void DX11TextureObject::create(void* handler, unsigned int width, unsigned int h
 		return;
 	}
 
-	mD3D11Device = (ID3D11Device*) handler;
-	mWidthY = (unsigned int)(ceil((float) width / CPU_ALIGMENT) * CPU_ALIGMENT);
+	mD3D11Device = (ID3D11Device*)handler;
+	mWidthY = (unsigned int)(ceil((float)width / CPU_ALIGMENT) * CPU_ALIGMENT);
 	mHeightY = height;
 	mLengthY = mWidthY * mHeightY;
 
@@ -104,7 +104,7 @@ void DX11TextureObject::upload(unsigned char* ych, unsigned char* uch, unsigned 
 
 	ID3D11DeviceContext* ctx = NULL;
 	mD3D11Device->GetImmediateContext(&ctx);
-	
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource[TEXTURE_NUM];
 	for (int i = 0; i < TEXTURE_NUM; i++) {
 		ZeroMemory(&(mappedResource[i]), sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -121,6 +121,8 @@ void DX11TextureObject::upload(unsigned char* ych, unsigned char* uch, unsigned 
 
 	//	Two thread memory copy
 	std::thread YThread = std::thread([&]() {
+
+
 		//	Map region has its own row pitch which may different to texture width.
 		if (mWidthY == rowPitchY) {
 			memcpy(ptrMappedY, ych, mLengthY);
@@ -137,6 +139,7 @@ void DX11TextureObject::upload(unsigned char* ych, unsigned char* uch, unsigned 
 	});
 
 	std::thread UVThread = std::thread([&]() {
+
 		if (mWidthUV == rowPitchUV) {
 			memcpy(ptrMappedU, uch, mLengthUV);
 			memcpy(ptrMappedV, vch, mLengthUV);
@@ -156,12 +159,12 @@ void DX11TextureObject::upload(unsigned char* ych, unsigned char* uch, unsigned 
 		}
 	});
 
-		if (YThread.joinable()) {
-			YThread.join();
-		}
-		if (UVThread.joinable()) {
-			UVThread.join();
-		}
+	if (YThread.joinable()) {
+		YThread.join();
+	}
+	if (UVThread.joinable()) {
+		UVThread.join();
+	}
 
 	for (int i = 0; i < TEXTURE_NUM; i++) {
 		ctx->Unmap(mTextures[i], 0);

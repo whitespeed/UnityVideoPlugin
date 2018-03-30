@@ -3,12 +3,20 @@
 #include "Logger.h"
 #include <memory>
 #include <string>
+#include <consoleapi.h>
 #pragma warning(disable:4996)
 Logger* Logger::_instance;
 UnityLog Logger::_unity = NULL;
+Logger::~Logger()
+{
+	fclose(file);
+	file = nullptr;
+}
 Logger::Logger() {
 	fclose(stdout);
-	freopen("NativeLog.txt", "a", stdout);
+	AllocConsole();
+	freopen_s(&file, "CONOUT$", "wb", stdout);
+	//file = freopen("NativeLog.txt", "a", stdout);
 }
 
 Logger* Logger::instance() {

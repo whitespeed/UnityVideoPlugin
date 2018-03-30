@@ -90,7 +90,7 @@ bool getVideoContextIter(int id, VideoContextIter* iter) {
 		}
 	}
 
-	LOG("Decoder does not exist. \n");
+	//LOG("Decoder does not exist. \n");
 	return false;
 }
 
@@ -132,7 +132,6 @@ void DoRendering (int id)
 				}
 
 				double videoDecCurTime = localAVHandler->getVideoInfo().lastTime;
-				//LOG("VideoDecCurTime = %f , ProgressTime= %f", videoDecCurTime, localVideoContext->progressTime);
 				if (videoDecCurTime <= localVideoContext->progressTime) {
 					uint8_t* ptrY = NULL;
 					uint8_t* ptrU = NULL;
@@ -152,7 +151,7 @@ void DoRendering (int id)
 }
 
 int nativeCreateDecoderAsync(const char* filePath, int& id) {
-	LOG("Query available decoder id. \n");
+	//LOG("Query available decoder id. \n");
 
 	int newID = 0;
 	VideoContextIter iter;
@@ -177,7 +176,7 @@ int nativeCreateDecoderAsync(const char* filePath, int& id) {
 
 //	Synchronized init. Used for thumbnail currently.
 int nativeCreateDecoder(const char* filePath, int& id) {
-	LOG("Query available decoder id. \n");
+	//LOG("Query available decoder id. \n");
 
 	int newID = 0;
 	VideoContextIter iter;
@@ -491,7 +490,7 @@ bool nativeIsEOF(int id) {
 
 void nativeRegistLogHandler(UnityLog fp)
 {
-	Logger::_unity = fp;
+	//Logger::_unity = fp;
 }
 //extern "C" EXPORT_API void nativeGetTextureType(void* ptr0) {
 //	ID3D11Texture2D* d3dtex = (ID3D11Texture2D*)(ptr0);
