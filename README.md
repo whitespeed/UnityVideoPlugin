@@ -5,7 +5,6 @@ MediaDecoder for Unity - v1.2
 Quick start:
 0.	Download the FFmpeg 3.4.1:
 	- 64 bits: https://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-3.4-win64-shared.zip
-	- 32 bits: https://ffmpeg.zeranoe.com/builds/win32/shared/ffmpeg-3.4-win32-shared.zip
 	Please notice that the license of FFmpeg official build is GPL and https is not default enabled.
 1.	Put the following dlls to the plugins folder(ex. If your project is at D:\SampleProject\,
 												 you can put the dlls to D:\SampleProject\Assets\MediaDecoder\Plugins\x64\)
@@ -13,9 +12,11 @@ Quick start:
 	- avformat-57.dll
 	- avutil-55.dll
 	- swresample-2.dll
+	- swscale-4.dll
+	- libssp.dll
 2.	Create a model with MeshRenderer(ex.Quad) and attach MediaDecoder.cs as component.
 3.	Set MeshRenderer’s Material to YUV2RGBA and make sure the shader to be YUV2RGBA.(YUV2RGBA_linear is for linear color space)
-4.	Fill in video path(ex. D:\_Video\sample.mp4) and enable Play On Awake.
+4.	Fill in video path(ex. ssp://192.168.0.2) and enable Play On Awake.
 5.	Click play, now you should be able to see the video playing on the model.
 6.	If dll not found, check the followings:
 	- In editor mode:
