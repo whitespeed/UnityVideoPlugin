@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AVOutputManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AVEncoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AVStreamerNew.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EncodedPacketFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BPSCounter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeckLinkAPI_h.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameProxy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageDelivery.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="P2PLog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PCMFrameFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoFrameFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\avcodec.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\avdct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\avfft.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\d3d11va.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\dirac.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\dv_profile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\dxva2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\jni.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\mediacodec.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\qsv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\vaapi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\vda.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\vdpau.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\videotoolbox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\vorbis_parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\xvmc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavdevice\avdevice.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavdevice\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavfilter\avfilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavfilter\avfiltergraph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavfilter\buffersink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavfilter\buffersrc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavfilter\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavformat\avformat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavformat\avio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libavformat\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pthread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\basic_types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\compare.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\compare_row.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\convert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\convert_argb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\convert_from.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\convert_from_argb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\cpu_id.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\macros_msa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\mjpeg_decoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\planar_functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\rotate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\rotate_argb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\rotate_row.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\row.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\scale.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\scale_argb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\scale_row.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="libyuv\video_common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractivePIsFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sched.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AVOutputManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AVEncoder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AVStreamerNew.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EncodedPacketFilter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BPSCounter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameProxy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageDelivery.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="P2PLog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PCMFrameFilter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoFrameFilter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPClient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractivePIsFilter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
