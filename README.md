@@ -6,8 +6,7 @@ Quick start:
 0.	Download the FFmpeg 3.4.1:
 	- 64 bits: https://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-3.4-win64-shared.zip
 	Please notice that the license of FFmpeg official build is GPL and https is not default enabled.
-1.	Put the following dlls to the plugins folder(ex. If your project is at D:\SampleProject\,
-												 you can put the dlls to D:\SampleProject\Assets\MediaDecoder\Plugins\x64\)
+1.	Put the following dlls to the plugins folder(ex. If your project is at D:\SampleProject\,you can put the dlls to D:\SampleProject\Assets\MediaDecoder\Plugins\x64\)
 	- avcodec-57.dll
 	- avformat-57.dll
 	- avutil-55.dll
@@ -23,7 +22,7 @@ Quick start:
 		* Make sure your Unity editor and FFmpeg dlls are consistent with 64 bits.
 		* Make sure FFmpeg dlls are placed in correct position.
 		Ex. If your project is located in D:\Sample\, the following directories should work:
-		D:\Sample\Assets\MediaDecoder\Plugins\x86_64\ or D:\Sample\Assets\MediaDecoder\Plugins\x86_64\
+		D:\Sample\Assets\MediaDecoder\Plugins\x86_64\ 
 		C:\Program Files\Unity\Editor\
 		Other system path in environment variables.
 	- Standalone build:
