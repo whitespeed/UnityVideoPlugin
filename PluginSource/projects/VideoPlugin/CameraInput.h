@@ -36,12 +36,10 @@ private:
 	void on_disconnect();
 	void setup(imf::Loop *loop, const char* addr);
 
-	uint8_t *mBuffer;
-	int mBufferSize;
+	unsigned int mQueueMaxSize;
 	std::string mUrl;
 	imf::SspClient *mSspClient;
 	imf::ThreadLoop *mThreadLooper;
-	AVIOContext *mIOContext;
 	imf::SspVideoMeta mVideoMeta;
 	imf::SspAudioMeta mAudioMeta;
 	imf::SspMeta mSspMeta;

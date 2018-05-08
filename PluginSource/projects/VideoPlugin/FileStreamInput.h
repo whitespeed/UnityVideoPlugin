@@ -13,9 +13,7 @@ class FileStreamInput:public virtual IStreamInput
 {
 public:
 	std::string mPath;
-	AVIOContext *mIOContext;
-	uint8_t *mBuffer; // internal buffer for ffmpeg
-	int mBufferSize;
+	
 	FILE *mFileHandler;
 public:
 	FileStreamInput(const char* url);
