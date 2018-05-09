@@ -60,7 +60,7 @@ AVFrame* FFMpegDecoder::convertToYUV420P(AVFrame* src)
 }
 
 
-bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Queue, const std::function<void(FFMpegDecoder::VideoInfo, std::list<AVFrame*> &mVideoFrames)> &decodeCallback,
+bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Queue, const std::function<void(FFMpegDecoder::VideoInfo, std::list<AVFrame*>)> &decodeCallback,
 	const bool &queueReady, const bool buffBlocked)
 {
 	if (!mIsInitialized)

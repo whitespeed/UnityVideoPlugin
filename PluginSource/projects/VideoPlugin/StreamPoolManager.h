@@ -19,10 +19,11 @@ public:
 	H264Queue H264Queue;
 
 	StreamPoolManager(IStreamInput *input);
+	~StreamPoolManager();
 
 	int RegisterAVIOContext(AVIOContext *);
 protected:
-	void updateBufferState(FFMpegDecoder.VideoInfo &mVideoInfo, AVFrame* mVideoFrames);
+	void updateBufferState(FFMpegDecoder::VideoInfo &mVideoInfo, AVFrame* mVideoFrames);
 	bool isH264QueueReady();
 	bool isBuffBlocked();
 };
