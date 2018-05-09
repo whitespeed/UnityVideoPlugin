@@ -6,7 +6,6 @@ extern "C" {
 class IStreamInput
 {
 public:
-	virtual IStreamInput(){};
 	virtual ~IStreamInput() {};
 
 	virtual bool InitAVFormatContext(AVFormatContext *) = 0;

@@ -1,5 +1,6 @@
 #include "FFMpegDecoder.h"
 #include "Logger.h"
+#include "H264Queue.h"
 #include "libavutil\imgutils.h"
 
 using namespace std::placeholders;
@@ -59,7 +60,7 @@ AVFrame* FFMpegDecoder::convertToYUV420P(AVFrame* src)
 }
 
 
-bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Queue, std::function<void(VideoInfo, AVFrame*)> &decodeCallback, 
+bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Queue, const std::function<void(FFMpegDecoder::VideoInfo, std::list<AVFrame*> &mVideoFrames)> &decodeCallback,
 	const bool &queueReady, const bool buffBlocked)
 {
 	if (!mIsInitialized)
@@ -124,7 +125,7 @@ bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Qu
 		auto delta = (double)(clock() - start) / CLOCKS_PER_SEC * 1000;
 		LOG("Decoder cost time per frame: %f\n", delta);
 	}
-	if (isBuffBlocked())
+	if (buffBlocked)
 	{
 		//LOG("Video frames buffer is full.\n");
 	}
@@ -132,7 +133,7 @@ bool FFMpegDecoder::Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Qu
 	return true;
 }
 
-bool FFMpegDecoder::init(IStreamInput &IOInput)
+bool FFMpegDecoder::Init(IStreamInput *IOInput)
 {
 	if (mIsInitialized) {
 		LOG("Decoder has been init. \n");
@@ -160,9 +161,9 @@ bool FFMpegDecoder::init(IStreamInput &IOInput)
 		return false;
 	}
 
-	VideoCodecContext = avcodec_alloc_context3(mVideoCodec);
-	avcodec_get_context_defaults3(VideoCodecContext, mVideoCodec);
-	int errorCode = avcodec_open2(VideoCodecContext, mVideoCodec, NULL);
+	mVideoCodecContext = avcodec_alloc_context3(mVideoCodec);
+	avcodec_get_context_defaults3(mVideoCodecContext, mVideoCodec);
+	int errorCode = avcodec_open2(mVideoCodecContext, mVideoCodec, NULL);
 
 	if (errorCode < 0) {
 		printErrorMsg(errorCode);
@@ -171,12 +172,12 @@ bool FFMpegDecoder::init(IStreamInput &IOInput)
 	{
 		LOG("Init video codec: %s\n", mVideoCodec->long_name);
 		LOG("Codec pixel-format: %s, color-space: %s, color-range: %s. \n", 
-			av_get_pix_fmt_name(VideoCodecContext->pix_fmt),
-			av_get_colorspace_name(VideoCodecContext->colorspace),
-			av_color_range_name(VideoCodecContext->color_range));
+			av_get_pix_fmt_name(mVideoCodecContext->pix_fmt),
+			av_get_colorspace_name(mVideoCodecContext->colorspace),
+			av_color_range_name(mVideoCodecContext->color_range));
 	}
-	VideoInfo.isEnabled = true;
-	AudioInfo.isEnabled = false;
+	mVideoInfo.isEnabled = true;
+	mAudioInfo.isEnabled = false;
 	mDtsIndex = 0;
 	mIsInitialized = true;
 }

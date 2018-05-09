@@ -5,6 +5,7 @@
 #include "imf/net/threadloop.h"
 #include "imf/ssp/sspclient.h"
 #include "IStreamInput.h"
+#include "H264Queue.h"
 #include <string>
 
 extern "C" {
@@ -14,70 +15,10 @@ extern "C" {
 #include <libswscale\swscale.h>
 }
 
-struct H264Data
-{
-	uint8_t* data;
-	size_t len;
-	uint32_t type;
-	uint32_t pts;
-	uint32_t frm_no;
-	virtual ~H264Data() {
-		len = 0;
-		frm_no = -1;
-		type = -1;
-		pts = -1;
-		if (data != NULL)
-			delete[] data;
-		data = NULL;
-	}
-}; H264Data;
-
-class H264Queue
-{
-public:
-	H264Queue()
-	{
-		
-	}
-	~H264Queue()
-	{
-		release();
-	}
-	void queue(H264Data* data)
-	{
-		std::lock_guard<std::mutex> lock(mOpMutex);
-		mDataList.push_back(data);
-	}
-	H264Data* dequeue()
-	{
-		std::lock_guard<std::mutex> lock(mOpMutex);
-		if (mDataList.size() <= 0)
-			return NULL;
-
-		H264Data* data = mDataList.front();
-		mDataList.pop_front();
-		return data;
-	}
-	size_t size()
-	{
-		std::lock_guard<std::mutex> lock(mOpMutex);
-		return mDataList.size();
-	}
-	void release()
-	{
-		std::lock_guard<std::mutex> lock(mOpMutex);
-		if (!mDataList.empty())
-			mDataList.clear();
-	}
-private:
-	std::list<H264Data*> mDataList;
-	std::mutex mOpMutex;
-};
-
 class FFMpegDecoder
 {
-
-	
+public:
+	enum BufferState { EMPTY, NORMAL, FULL };
 
 	struct VideoInfo {
 		bool isEnabled;
@@ -97,14 +38,15 @@ class FFMpegDecoder
 		BufferState bufferState;
 	};
 
-public:
 	FFMpegDecoder();
 	~FFMpegDecoder();
 
-	bool Init(IStreamInput &IOInput) = 0;
-	bool Decode() = 0;
-	void Seek(double time) = 0;
-	void Destroy(IStreamInput &IOInput) = 0;
+	bool Init(IStreamInput *IOInput);
+	void pushVideoFrame(AVFrame* frame, std::list<AVFrame*> &mVideoFrames);
+	bool Decode(std::list<AVFrame*> &mVideoFrames, H264Queue &mH264Queue, const std::function<void(FFMpegDecoder::VideoInfo, std::list<AVFrame*>)> &decodeCallback,
+		const bool &queueReady, const bool buffBlocked);
+	void Seek(double time);
+	void Destroy(IStreamInput &IOInput);
 
 	void setVideoEnable(bool isEnable);
 	void setAudioAllChDataEnable(bool isEnable);

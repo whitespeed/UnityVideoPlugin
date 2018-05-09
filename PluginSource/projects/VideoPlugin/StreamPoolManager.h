@@ -2,7 +2,7 @@
 extern "C" {
 #include <libavformat\avformat.h>
 }
-
+#include "H264Queue.h"
 #include <iostream>   
 #include <list>
 #include "IStreamInput.h"
@@ -13,14 +13,12 @@ using namespace std;
 class StreamPoolManager
 {
 
-	enum BufferState {EMPTY, NORMAL, FULL};
-
 public:
 	std::list<AVFrame*> FixStreamList;
 	std::list<AVFrame*> DynamicStreamList;
 	H264Queue H264Queue;
 
-	int StreamPoolManager(IStreamInput *input);
+	StreamPoolManager(IStreamInput *input);
 
 	int RegisterAVIOContext(AVIOContext *);
 protected:
