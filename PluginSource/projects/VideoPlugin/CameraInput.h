@@ -9,6 +9,7 @@ extern "C" {
 #include <stdio.h>
 #include <string>
 #include "IStreamInput.h"
+#include "H264Queue.h"
 #include <functional>
 #include <thread>
 
@@ -25,9 +26,9 @@ extern "C" {
 class CameraInput : public virtual IStreamInput
 {
 public:
-		CameraInput(const char* data);
+		CameraInput();
 		virtual ~CameraInput();
-		virtual bool InitAVFormatContext(AVFormatContext *);
+		virtual bool InitAVFormatContext(char * path);
 		static int IOReadCall(void *data, uint8_t *buf, int buf_size) { return -1; }
 
 private:

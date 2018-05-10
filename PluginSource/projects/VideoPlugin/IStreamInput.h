@@ -6,17 +6,18 @@ extern "C" {
 class IStreamInput
 {
 public:
+
 	virtual ~IStreamInput() {};
 
-	virtual bool InitAVFormatContext(AVFormatContext *) = 0;
+	virtual bool InitAVFormatContext(char * path) = 0;
 
+	AVFormatContext *mFormatContext;
 	AVIOContext *mIOContext;
 
 	uint8_t *mBuffer;
 	int mBufferSize;
 
-	uint8_t *mBuffer;
-	int mBufferSize;
 protected:
 	StreamPoolManager *PoolManager;
+	static IStreamInput* self;
 };

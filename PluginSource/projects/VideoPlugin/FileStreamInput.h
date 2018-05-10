@@ -16,10 +16,10 @@ public:
 	
 	FILE *mFileHandler;
 public:
-	FileStreamInput(const char* url);
+	FileStreamInput();
 	virtual ~FileStreamInput();
 
-	bool initAVFormatContext(AVFormatContext *);
+	bool initAVFormatContext(char * path);
 };
 
 static int IOReadFunc(void *data, uint8_t *buf, int buf_size) {
