@@ -30,3 +30,6 @@
 /RtmpLib/.vs
 /RtmpLib/RtmpLib.VC.VC.opendb
 /VideoTools/libssp/.vs/libssp_test/v14/*.suo
+SspUnityProject/Library/
+PluginSource/projects/VideoPlugin/Debug/
+SspUnityProject/Temp/
